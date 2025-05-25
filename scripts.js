@@ -330,3 +330,16 @@ function openTaskModal(task) {
   modal.appendChild(modalContent);
   document.body.appendChild(modal);
 }
+
+/**
+ * Updates a task with new data and refreshes the display
+ * @param {number} taskId - The ID of the task to update
+ * @param {Object} newData - The new task data
+ */
+function updateTask(taskId, newData) {
+  const taskIndex = userTasks.findIndex((task) => task.id === taskId);
+  if (taskIndex !== -1) {
+    userTasks[taskIndex] = { ...userTasks[taskIndex], ...newData };
+    refreshTaskDisplay();
+  }
+}
