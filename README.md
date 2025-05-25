@@ -12,8 +12,6 @@ A modern, responsive task management application built with vanilla JavaScript t
 - **User Interface**
   - Responsive design that works on desktop and mobile devices
   - Clean, modern UI with smooth animations
-  - Dark/Light theme toggle
-  - Collapsible sidebar for better space utilization
 
 - **Task Organization**
   - Visual task status tracking
