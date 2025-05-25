@@ -1,4 +1,4 @@
-# Kanban Task Management System
+# Kanban Task Management System (JSL05)
 
 A modern, responsive task management application built with vanilla JavaScript that helps users organize their tasks using the Kanban methodology. The application features a clean, intuitive interface and persistent local storage to ensure your tasks are never lost.
 
@@ -30,15 +30,9 @@ A modern, responsive task management application built with vanilla JavaScript t
 ## 📋 Setup Instructions
 
 1. Clone the repository:
-   ```bash
-   git clone [repository-url]
-   ```
 
 2. Navigate to the project directory:
-   ```bash
-   cd kanban-task-management
-   ```
-
+`
 3. Open the project:
    - Double-click `index.html` to open in your browser
    - Or use a local development server of your choice
