@@ -77,9 +77,9 @@ const ModalManager = {
     this.newTaskTitleInput = document.getElementById("new-task-title");
     this.titleValidationMessage = document.getElementById(
       "title-validation-message"
-        );
-      
-       // Hide the validation message initially
+    );
+
+    // Hide the validation message initially
     this.titleValidationMessage.style.display = "none";
 
     // Add an input event listener to hide the message when user starts typing
@@ -89,3 +89,51 @@ const ModalManager = {
       }
     });
   },
+
+  /**
+   * Opens the Add Task modal
+   */
+  openModal: function () {
+    this.modal.style.display = "flex";
+    document.getElementById("new-task-title").focus();
+  },
+
+  /**
+   * Closes the Add Task modal
+   */
+  closeModal: function () {
+    this.modal.style.display = "none";
+    this.form.reset();
+  },
+
+  /**
+   * Handles the form submission
+   * @param {Event} e - The submit event
+   */
+  handleSubmit: function (e) {
+    e.preventDefault(); // Prevent default form submission to handle validation manually
+
+    const title = this.newTaskTitleInput.value.trim();
+
+    if (title === "") {
+      // Show the custom validation message only on submission if title is empty
+      this.titleValidationMessage.style.display = "block";
+      // Do NOT proceed with task creation
+      return;
+    } else {
+      // Hide the custom validation message if title is not empty
+      this.titleValidationMessage.style.display = "none";
+    }
+
+    // If we reach here, validation passed, proceed with task creation
+    const newTask = {
+      id: userTasks.reduce((maxId, task) => Math.max(maxId, task.id), 0) + 1,
+      title: title,
+      description: document.getElementById("new-task-description").value,
+      status: document.getElementById("new-task-status").value,
+    };
+
+    TaskManager.addTask(newTask);
+    this.closeModal();
+  },
+};
