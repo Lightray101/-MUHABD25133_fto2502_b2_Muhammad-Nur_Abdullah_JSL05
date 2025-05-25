@@ -343,3 +343,41 @@ function updateTask(taskId, newData) {
     refreshTaskDisplay();
   }
 }
+
+/**
+ * Refreshes the task display by clearing and repopulating all columns
+ */
+function refreshTaskDisplay() {
+  // Clear all columns
+  Object.values(taskColumns).forEach((column) => (column.innerHTML = ""));
+
+  // Add tasks to appropriate columns
+  userTasks.forEach((task) => {
+    const taskElement = createTaskElement(task);
+    taskColumns[task.status].appendChild(taskElement);
+  });
+
+  // Update column counts
+  updateColumnCounts();
+}
+
+/**
+ * Updates the count of tasks in each column header
+ */
+function updateColumnCounts() {
+  const counts = {
+    todo: userTasks.filter((task) => task.status === "todo").length,
+    doing: userTasks.filter((task) => task.status === "doing").length,
+    done: userTasks.filter((task) => task.status === "done").length,
+  };
+
+  document.getElementById("toDoText").textContent = `TODO (${counts.todo})`;
+  document.getElementById("doingText").textContent = `DOING (${counts.doing})`;
+  document.getElementById("doneText").textContent = `DONE (${counts.done})`;
+}
+
+// Initialize the modal functionality
+document.addEventListener("DOMContentLoaded", () => {
+  ModalManager.init();
+  refreshTaskDisplay();
+});
