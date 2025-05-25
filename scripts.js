@@ -137,3 +137,97 @@ const ModalManager = {
     this.closeModal();
   },
 };
+
+// Initialize tasks from local storage or use default tasks
+let userTasks =
+  StorageManager.getTasks().length > 0
+    ? StorageManager.getTasks()
+    : [
+        {
+          id: 1,
+          title: "Launch Epic Career 🚀",
+          description: "Create a killer Resume",
+          status: "todo",
+        },
+        {
+          id: 2,
+          title: "Conquer React⚛️",
+          description: "Learn the basics of React.",
+          status: "todo",
+        },
+        {
+          id: 3,
+          title: "Understand Databases⚙️",
+          description: "Study database concepts.",
+          status: "todo",
+        },
+        {
+          id: 4,
+          title: "Crush Frameworks🖼️",
+          description: "Explore various frameworks.",
+          status: "todo",
+        },
+        {
+          id: 5,
+          title: "Master JavaScript 💛",
+          description: "Get comfortable with the fundamentals.",
+          status: "doing",
+        },
+        {
+          id: 6,
+          title: "Never Give Up 🏆",
+          description: "Keep pushing forward!",
+          status: "doing",
+        },
+        {
+          id: 7,
+          title: "Explore ES6 Features 🚀",
+          description: "Deep dive into ES6.",
+          status: "done",
+        },
+        {
+          id: 8,
+          title: "Have fun 🥳",
+          description: "Enjoy the process!",
+          status: "done",
+        },
+      ];
+
+// Save initial tasks to local storage if none exist
+if (StorageManager.getTasks().length === 0) {
+  StorageManager.saveTasks(userTasks);
+}
+
+// Function to filter completed tasks
+function getCompletedTasks(arr) {
+  return arr.filter((task) => task.status === "done");
+}
+
+// Log all user-created tasks as an array
+console.log("All tasks:", userTasks);
+
+// Log only completed tasks as an array
+console.log("Completed tasks:", getCompletedTasks(userTasks));
+
+// DOM Elements
+const taskColumns = {
+  todo: document.querySelector('[data-status="todo"] .tasks-container'),
+  doing: document.querySelector('[data-status="doing"] .tasks-container'),
+  done: document.querySelector('[data-status="done"] .tasks-container'),
+};
+/**
+ * Creates a task element with the given task data
+ * @param {Object} task - The task object containing id, title, description, and status
+ * @returns {HTMLElement} The created task element
+ */
+function createTaskElement(task) {
+  const taskElement = document.createElement("div");
+  taskElement.className = "task-div";
+  taskElement.dataset.taskId = task.id;
+  taskElement.textContent = task.title;
+
+  // Add click event to open modal
+  taskElement.addEventListener("click", () => openTaskModal(task));
+
+  return taskElement;
+}
