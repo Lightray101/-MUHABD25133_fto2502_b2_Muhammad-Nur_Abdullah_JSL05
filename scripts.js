@@ -231,3 +231,102 @@ function createTaskElement(task) {
 
   return taskElement;
 }
+/**
+ * Opens the task modal with the given task data
+ * @param {Object} task - The task object to display in the modal
+ */
+function openTaskModal(task) {
+  // Create modal elements
+  const modal = document.createElement("div");
+  modal.className = "modal";
+
+  const modalContent = document.createElement("div");
+  modalContent.className = "modal-content";
+
+  // Create a header div for the title and close button
+  const modalHeader = document.createElement("div");
+  modalHeader.className = "modal-header";
+
+  // Create the modal title
+  const modalTitle = document.createElement("h2");
+  modalTitle.textContent = "Edit Task";
+
+  // Add a close button (X icon)
+  const closeButton = document.createElement("button");
+  closeButton.className = "close-modal-button";
+  closeButton.innerHTML = "&times;"; // HTML entity for 'times' (X)
+
+  // Append title and close button to the header
+  modalHeader.appendChild(modalTitle);
+  modalHeader.appendChild(closeButton);
+
+  // Append the header to modal content
+  modalContent.appendChild(modalHeader);
+  // Create form elements
+  const form = document.createElement("form");
+  form.innerHTML = `
+    <div class="form-group">
+      <label for="task-title">Title</label>
+      <input type="text" id="task-title" value="${task.title}" required>
+    </div>
+    <div class="form-group">
+      <label for="task-description">Description</label>
+      <textarea id="task-description" required>${task.description}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="task-status">Status</label>
+      <select id="task-status">
+        <option value="todo" ${
+          task.status === "todo" ? "selected" : ""
+        }>todo</option>
+        <option value="doing" ${
+          task.status === "doing" ? "selected" : ""
+        }>doing</option>
+        <option value="done" ${
+          task.status === "done" ? "selected" : ""
+        }>done</option>
+      </select>
+    </div>
+  `; // Removed modal-buttons div
+
+  // Add form to modal content
+  modalContent.appendChild(form);
+
+  // Add event listeners
+  // Removed form submit listener
+
+  // Add event listener to modal backdrop
+  modal.addEventListener("click", (e) => {
+    // Check if the click was on the modal backdrop, not inside the modal-content
+    if (e.target === modal) {
+      // Gather current data from fields
+      const updatedData = {
+        title: document.getElementById("task-title").value,
+        description: document.getElementById("task-description").value,
+        status: document.getElementById("task-status").value,
+      };
+      // Update the task
+      updateTask(task.id, updatedData);
+      // Close the modal
+      modal.remove();
+    }
+  });
+
+  // Add event listener to the new close button
+  closeButton.addEventListener("click", () => {
+    // Gather current data from fields
+    const updatedData = {
+      title: document.getElementById("task-title").value,
+      description: document.getElementById("task-description").value,
+      status: document.getElementById("task-status").value,
+    };
+    // Update the task
+    updateTask(task.id, updatedData);
+    // Close the modal
+    modal.remove();
+  });
+
+  // Add modal to DOM
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+}
